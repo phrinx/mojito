@@ -8,7 +8,7 @@ YUI.add('mojito-middleware-handler-tunnel-tests', function(Y, NAME) {
     var Assert = YUITest.Assert,
         suite = new YUITest.TestSuite(NAME),
         path = require('path'),
-        factory = require(path.join(__dirname, '../../../middleware/mojito-handler-tunnel'));
+        factory = require(path.join(__dirname, '../../../app/middleware/mojito-handler-tunnel'));
 
     suite.add(new YUITest.TestCase({
 
@@ -80,7 +80,7 @@ YUI.add('mojito-middleware-handler-tunnel-tests', function(Y, NAME) {
                             "id": "MojitA:orange"
                         };
                         endCalls++;
-                        Assert.areEqual(JSON.stringify(expected,null,4), data, 'should have gotten spec');
+                        Assert.areEqual(Y.JSON.stringify(expected,null,4), data, 'should have gotten spec');
                     }
 
                 };
@@ -112,7 +112,7 @@ YUI.add('mojito-middleware-handler-tunnel-tests', function(Y, NAME) {
                             "id": "MojitA:orange"
                         };
                         endCalls++;
-                        Assert.areEqual(JSON.stringify(expected,null,4), data, 'should have gotten spec');
+                        Assert.areEqual(Y.JSON.stringify(expected,null,4), data, 'should have gotten spec');
                     }
 
                 };
@@ -144,7 +144,7 @@ YUI.add('mojito-middleware-handler-tunnel-tests', function(Y, NAME) {
                             "type": "MojitA"
                         };
                         endCalls++;
-                        Assert.areEqual(JSON.stringify(expected,null,4), data, 'should have gotten spec');
+                        Assert.areEqual(Y.JSON.stringify(expected,null,4), data, 'should have gotten spec');
                     }
 
                 };
@@ -176,7 +176,7 @@ YUI.add('mojito-middleware-handler-tunnel-tests', function(Y, NAME) {
                             "type": "MojitA"
                         };
                         endCalls++;
-                        Assert.areEqual(JSON.stringify(expected,null,4), data, 'should have gotten spec');
+                        Assert.areEqual(Y.JSON.stringify(expected,null,4), data, 'should have gotten spec');
                     }
 
                 };

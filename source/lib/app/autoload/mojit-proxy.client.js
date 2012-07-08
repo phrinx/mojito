@@ -50,21 +50,21 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
 
         /**
          * The mojit type
-         * @type {string}
+         * @type {String}
          */
 
 
         this.type = opts.type;
         /**
          * The mojit configuration for this binder
-         * @type {object}
+         * @type {Object}
          */
         this.config = opts.config;
 
 
         /**
          * The context used to generate this page
-         * @type {object}
+         * @type {Object}
          */
         this.context = opts.context;
 
@@ -85,9 +85,10 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
 
         /**
          * Used by mojit binders to broadcast a message between mojits.
+         * @method broadcast
          * @param {String} name event name.
          * @param {Object} payload the payload for the event.
-         * @param {object} options currently only used to specify target for
+         * @param {Object} options currently only used to specify target for
          *      broadcast. For example, to target only one child mojit for
          *      broadcast, use:
          *          {target: {slot: 'slot name', viewId: 'DOM view id'}}.
@@ -102,6 +103,7 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
 
         /**
          * Allows mojit binders to register to listen to other mojit events
+         * @method listen
          * @param {String} name event name.
          * @param {Function} callback called when an event is broadcast with
          *     the event data.
@@ -122,6 +124,7 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
          * from the listener queue associated with this binder and event type.
          * If event name is not specified, all callbacks associated with this
          * binder are deleted.
+         * @method unlisten
          * @param {String} [optional] name event name.
          */
         unlisten: function(name) {
@@ -134,8 +137,9 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
          * This method renders the "data" provided into the "View" specified.
          * The "view" must be the name of one of the files in the current
          * Mojits "views" folder. Returns via the callback.
-         * @param {object} data The data to render.
-         * @param {string} view The view name to use for rendering.
+         * @method render
+         * @param {Object} data The data to render.
+         * @param {String} view The view name to use for rendering.
          * @param {function(err,str)} cb The callback function.
          */
         render: function(data, view, cb) {
@@ -158,9 +162,10 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
          *     <dt>rpc</dt><dd>&lt;boolean&gt; Means that we are immediately
          *     sending the request to the server to answer the invocation.</dd>
          * </dl>
-         * @param {string} action name of the action to invoke.
+         * @method invoke
+         * @param {String} action name of the action to invoke.
          * @param {Object} options see above.
-         * @param {function} cb function to be called on completion.
+         * @param {Function} cb function to be called on completion.
          */
         invoke: function(action, options, cb) {
             var callback, command, instance;
@@ -222,8 +227,9 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
          * Refreshes the current DOM view for this binder without recreating the
          * binder instance. Will call the binder's onRefreshView() function when
          * complete with the new Y.Node and HTMLElement objects.
-         * @param {object} opts same as the options for invoke().
-         * @param {function} cb Called after replacement and onRefreshView have
+         * @method refreshView
+         * @param {Object} opts same as the options for invoke().
+         * @param {Function} cb Called after replacement and onRefreshView have
          *     been called, sends data/meta.
          */
         refreshView: function(opts, cb) {
@@ -238,8 +244,9 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
 
         /**
          * Gets URL parameters
-         * @param {string} key The name of the parameter required.
-         * @return {string|object} param value, or all params if no key
+         * @method getFromUrl
+         * @param {String} key The name of the parameter required.
+         * @return {String|Object} param value, or all params if no key
          *     specified.
          */
         getFromUrl: function(key) {
@@ -259,7 +266,8 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
 
         /*
          * Returns the DOM Node ID for the current binder
-         * @return {string} YUI GUID
+         * @method getId
+         * @return {String} YUI GUID
          */
         getId: function() {
             return this._viewId;
@@ -269,7 +277,8 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
         /**
          * Helper function to gather up details about a mojit's children from
          * the Mojito Client.
-         * @return {object} slot<string>-->child information.<object>
+         * @method getChildren
+         * @return {Object} slot &lt;String&gt;-->child information &lt;Object&gt;.
          */
         getChildren: function() {
             return this._client._mojits[this.getId()].children;
@@ -280,20 +289,27 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
          * Clears out a child's view, calling the appropriate life cycle
          * functions, then destroy's its binder and dereferences it. Will also
          * dereference the child from this mojit's children.
-         * @param {string} id Either the slot key of the child, or the DOM
+         * @method destroyChild
+         * @param {String} id Either the slot key of the child, or the DOM
          *     view id of the child.
-         * @param {boolean} retainNode if true, the binder's node will remain in
+         * @param {Boolean} retainNode if true, the binder's node will remain in
          *     the dom.
          */
         destroyChild: function(id, retainNode) {
-            var slot, doomed, children = this.getChildren();
-            if (children[id]) {
-                doomed = children[id].viewId;
+            var slot,
+                doomed, // viewid/dom id
+                children = this.getChildren(),
+                child = children[id];
+
+            if (child) {
+                doomed = child.viewId;
+
             } else {
+                //child key could be a random YUI Id
                 for (slot in children) {
-                    if (children.hasOwnProperty(slot) &&
-                            children[slot].viewId === id) {
+                    if (children.hasOwnProperty(slot) && children[slot].viewId === id) {
                         doomed = id;
+                        break;
                     }
                 }
             }
@@ -301,31 +317,39 @@ YUI.add('mojito-mojit-proxy', function(Y, NAME) {
                 throw new Error("Cannot destroy a child mojit with id '" +
                     id + "'. Are you sure this is your child?");
             }
+
             this._client.destroyMojitProxy(doomed, retainNode);
-            delete children[id];
-            if (this.config.children) {
-                delete this.config.children[id];
+
+            if (child) {
+                if (this.config.children) {
+                    delete this.config.children[id];
+                }
+                delete children[id];
             }
         },
 
 
         /**
          * Destroys all children. (Calls destroyChild() for each child.)
-         * @param {boolean} retainNode if true, the binder's node will remain in
+         * @method destroyChildren
+         * @param {Boolean} retainNode if true, the binder's node will remain in
          *     the dom.
          */
         destroyChildren: function(retainNode) {
-            var my = this;
-            Y.Object.each(this.getChildren(), function(child, childId) {
-                my.destroyChild(childId, retainNode);
-            });
+            var children = this.getChildren(), child;
+            for (child in children) {
+                if (children.hasOwnProperty(child)) {
+                    this.destroyChild(child, retainNode);
+                }
+            }
         },
 
 
         /**
          * Allows a binder to destroy itself and be removed from Mojito client
          * runtime entirely.
-         * @param {boolean} retainNode if true, the binder's node will remain in
+         * @method destroySelf
+         * @param {Boolean} retainNode if true, the binder's node will remain in
          *     the dom.
          */
         destroySelf: function(retainNode) {
