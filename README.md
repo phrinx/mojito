@@ -7,27 +7,26 @@ on-line/off-line, multi-device, hosted application platform.
 
 ### via GitHub
 
-    $ git clone http://github.com:yahoo/mojito.git mojito
+    $ git clone git://github.com/yahoo/mojito.git
     $ cd mojito/source
     $ npm install -g .
     $ npm install .
-    $ mojito test
 
 ### via npm
 
     $ npm install -g mojito
-    $ npm install mojito
 
 ## Quick Start
 
-Make an app:
+Create an app and install local Mojito:
 
-    $ mojito create app simple hello
+    $ mojito create app hello
     $ cd hello
+    $ npm install .
 
-Make a mojit:
+Create a mojit:
 
-    $ mojito create mojit simple HelloMojit
+    $ mojito create mojit HelloMojit
 
 Edit application.json to configure mojit so that it looks like:
 
@@ -48,15 +47,33 @@ Start the server:
 
 Go to URL:
 
-    http://localhost:8666/hello/index
+    http://localhost:8666/@HelloMojit/index
 
 ## Documentation
 
-http://developer.yahoo.com/cocktails/mojito
+### General
 
-## Licensing
+* Mojito Home Page - http://developer.yahoo.com/cocktails/mojito
+* Mojito Docs Navigation - http://developer.yahoo.com/cocktails/mojito/docs/
+* Mojito FAQ - http://developer.yahoo.com/cocktails/mojito/docs/faq/
+* Mojito Introduction - http://developer.yahoo.com/cocktails/mojito/docs/intro/
+* Mojito Getting Started - http://developer.yahoo.com/cocktails/mojito/docs/getting_started/
 
-Please see the LICENSE.txt file for details.
+### API Documentation
+
+* Running the following command will generate API docs and locally save them to `./artifacts/docs/mojito/`
+    `$ mojito docs mojito`
+* View the Mojito API documentation on YDN: http://developer.yahoo.com/cocktails/mojito/api/
+
+## Discussion/Forums
+
+http://developer.yahoo.com/forum/Yahoo-Mojito
+
+## Licensing and Contributions
+
+Mojito is licensed under a [BSD license](https://github.com/yahoo/mojito/blob/master/LICENSE.txt). To contribute to the Mojito project, please see [Contributing](https://github.com/yahoo/mojito/wiki/Contributing-Code-to-Mojito). 
+
+The Mojito project is a [meritocratic, consensus-based community project](https://github.com/yahoo/mojito/wiki/Governance-Model) which allows anyone to contribute and gain additional responsibilities.
 
 ## Third-party libraries
 
